@@ -2,12 +2,24 @@
 
 #ifndef MACRO_ADT
 #define MACRO_ADT
-#include<stdio.h>
+#include<iostream>
 #include<typeinfo>
-
+#include"Colours.h"
 
 #define MACRO_TYPE template<typename DATA_TYPE, const int SIZE>
 
+
+void show_error(const std::string& str) {
+	printf("%s[Error] : %s\n", ANSI_COLOR_RED, str.c_str());
+};
+
+void show_warning(const std::string& str) {
+	printf("%s[Warning] : %s\n", ANSI_COLOR_YELLOW, str.c_str());
+};
+
+void show_message(const std::string& str) {
+	printf("%s[Message] : %s\n", ANSI_COLOR_RESET, str.c_str());
+};
 
 //Copyright2023 Vishal Ahirwar.
 MACRO_TYPE
@@ -24,7 +36,7 @@ private:
 public:
 
 
-	Array() :size(SIZE), data(new DATA_TYPE[SIZE]), len(0) {};
+	Array() :size(SIZE), data(new DATA_TYPE[SIZE]), len(0) { show_warning("Constructor Called!"); };
 	~Array()
 	{
 		if (this->data != nullptr)delete[]this->data;
@@ -35,50 +47,91 @@ public:
 	const auto get_len()const { return this->len; };
 	const auto * get_ptr()const { return this->data; };
 
-	//TODO Add/Append
+
 	void append(const DATA_TYPE&);
-	//TODO Insert
-	uint16_t insert(const uint16_t& index, const DATA_TYPE& value);
+
+	int insert(const uint16_t& index, const DATA_TYPE& value);
 	//TODO Binary Search
-	uint16_t binary_search(const DATA_TYPE& value);
-	//TODO Linear Search
-	uint16_t linear_search(const DATA_TYPE& value);
+	int binary_search(const DATA_TYPE& value);
+
+	int linear_search(const DATA_TYPE& value);
 	//TODO Optimization of Linear Search
 	//TODO Deleting Element From Array
 
 	void display()const;
 
+	DATA_TYPE operator [](uint16_t index)
+	{
+		if (index <= len)
+		{
+			return data[index];
+		}
+		else {
+			return 0;
+		}
+	}
+	;
+
 private:
 	unsigned int size{};
 	unsigned int len{};
-	DATA_TYPE* data;
+	DATA_TYPE* data{nullptr};
 };
 
 MACRO_TYPE
-inline void Array<DATA_TYPE,SIZE>::append(const DATA_TYPE&)
+inline void Array<DATA_TYPE, SIZE>::append(const DATA_TYPE& value)
 {
-}
+	if (len < size)
+	{
+		data[len++] = value;
+	}
+	else { show_error("Data structure is full"); };
+
+};
+
 MACRO_TYPE
-inline uint16_t Array<DATA_TYPE,SIZE>::insert(const uint16_t& index, const DATA_TYPE& value)
+inline int Array<DATA_TYPE, SIZE>::insert(const uint16_t& index, const DATA_TYPE& value)
+{
+	if (index > size || len == size)
+	{
+		show_error("Can't insert new element the structure is already full or the index is out of Array size!");
+		return -1;
+	}
+
+	for (int i = len; i != index; --i)
+	{
+		data[i] = data[i - 1];
+	};
+	data[index] = value;
+	++len;
+	return 1;
+};
+
+MACRO_TYPE
+inline int Array<DATA_TYPE,SIZE>::binary_search(const DATA_TYPE& value)
 {
 	return uint16_t();
 }
 MACRO_TYPE
-inline uint16_t Array<DATA_TYPE,SIZE>::binary_search(const DATA_TYPE& value)
+inline int Array<DATA_TYPE, SIZE>::linear_search(const DATA_TYPE& value)
 {
-	return uint16_t();
-}
-MACRO_TYPE
-inline uint16_t Array<DATA_TYPE, SIZE>::linear_search(const DATA_TYPE& value)
-{
-	return uint16_t();
+	for (int i = 0; i < len; ++i)
+	{
+		if (data[i]==value)
+		{
+			return i;
+		};
+	};
+
+	return -1;
 };
 MACRO_TYPE
 void Array<DATA_TYPE, SIZE>::display()const
 {
+	show_message("Displaying Elements in Array : ");
 	for (auto i = 0; i < this->len; ++i)
 	{
-		printf("%s", this->data[i]);
+		std::cout << data[i] << ", ";
 	};
 	printf("\n");
 };
