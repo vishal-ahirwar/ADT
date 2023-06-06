@@ -1,3 +1,4 @@
+//Copyright2023 Vishal Ahirwar.All rights reserved.
 #ifndef MACRO_COLOR
 #define MACRO_COLOR
 
