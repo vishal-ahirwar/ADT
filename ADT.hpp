@@ -28,8 +28,8 @@ namespace V
 	MACRO_TYPE
 		class Array
 	{
-	private:
-		void swap(DATA_TYPE& a, DATA_TYPE& b)
+	public:
+		static void swap(DATA_TYPE& a, DATA_TYPE& b)
 		{
 			DATA_TYPE c = a;
 			a = b;
@@ -122,7 +122,10 @@ namespace V
 		{
 			if (data[i] == value)
 			{
-				return i;
+				if (i == 0)return i;
+				swap(data[i - 1], data[i]);//Memoization shifting elements slowly slowly
+				/*swap(data[0], data[i]);*/
+				return i-1;
 			};
 		};
 

@@ -8,23 +8,15 @@ int main()
 {
 
 	V::Array<int, 5> arr;
-	for (uint16_t i = 0; i < arr.get_size(); ++i)arr.append(i * i);
-	//auto index = arr.linear_search(16);
-	if (auto index = arr.linear_search(15); index == -1)
+	for (int i = 0; i < arr.get_size(); ++i)arr.append(i);
+	printf("Search and see how the array is shifting elements:)\n");
+	for (;;)
 	{
-		V::show_error("Not found!");
+		arr.display();
+		std::cout << "E : ";
+		int input{};
+		std::cin >> input;
+		if (input == -1)break;
+		arr.linear_search(input);
 	}
-	else
-	{
-		V::show_message("Found!");
-	};
-
-	if (int index = arr.linear_search(16); index == -1)
-	{
-		V::show_error("not found!");
-	}
-	else
-	{
-		V::show_message("found!");
-	};
 }
