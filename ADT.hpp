@@ -68,16 +68,20 @@ namespace V
 		//TODO RightRotate()
 		//TODO Merging Arrays
 
+		
+			template<class DATA_TYPE, int SIZE, int SIZE2>
+			friend void merge(Array<DATA_TYPE, SIZE>& arr, const Array<DATA_TYPE, SIZE2>& arr1);
+
 		void display()const;
 
-		DATA_TYPE operator [](uint16_t index)
+		DATA_TYPE* operator [](uint16_t index)
 		{
 			if (index <= len)
 			{
-				return data[index];
+				return &data[index];
 			}
 			else {
-				return 0;
+				return nullptr;
 			}
 		}
 		;
@@ -169,5 +173,20 @@ namespace V
 		qsort(data, len, sizeof(DATA_TYPE), function);
 		b_sorted = true;
 	};
+
+template<class DATA_TYPE,int SIZE,int SIZE2>
+	void merge(Array<DATA_TYPE,SIZE>&arr,const Array<DATA_TYPE,SIZE2>&arr1)
+	{
+		DATA_TYPE* new_data = new DATA_TYPE[arr.len + arr1.len];
+		unsigned i{};
+		for (i = 0; i < arr.len; ++i)new_data[i] = arr.data[i];
+		for (unsigned j = 0; j < arr1.len; ++j,++i)new_data[i] = arr1.data[j];
+		delete[] arr.data;
+		arr.len += arr1.len;
+		arr.size += arr1.size;
+		arr.data = new_data;
+		new_data = nullptr;
+	};
+
 }
 #endif
