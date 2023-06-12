@@ -53,24 +53,22 @@ namespace V
 
 		void append(const DATA_TYPE&);
 
-		void sort(int(*function)(const void*,const void*));
+		void sort(int(*function)(const void*, const void*));
 		int insert(const uint16_t& index, const DATA_TYPE& value);
 		//TODO Binary Search
 		int binary_search(const DATA_TYPE& value);
 
 		int linear_search(const DATA_TYPE& value);
-		//TODO Optimization of Linear Search
-		//TODO Deleting Element From Array
-		//TODO Reversing Array
-		//TODO LeftShift()
-		//TODO RightShift()
-		//TODO LeftRotate()
-		//TODO RightRotate()
-		//TODO Merging Arrays
 
-		
-			template<class DATA_TYPE, int SIZE, int SIZE2>
-			friend void merge(Array<DATA_TYPE, SIZE>& arr, const Array<DATA_TYPE, SIZE2>& arr1);
+		void left_rotate();
+		void right_rotate();
+		void left_shift();
+		void right_shift();
+
+		void reverse();
+		void remove(const DATA_TYPE&);
+		template<class DATA_TYPE, int SIZE, int SIZE2>
+		friend void merge(Array<DATA_TYPE, SIZE>& arr, const Array<DATA_TYPE, SIZE2>& arr1);
 
 		void display()const;
 
@@ -128,9 +126,9 @@ namespace V
 		if (!b_sorted)
 		{
 			show_error("Array iss not sorted");
-				return -1;
+			return -1;
 		};
-		unsigned int low{0}, high{ this->len }, mid{0};
+		unsigned int low{ 0 }, high{ this->len }, mid{ 0 };
 		while (low <= high)
 		{
 			mid = (low + high) / 2;
@@ -151,7 +149,7 @@ namespace V
 				if (i == 0)return i;
 				swap(data[i - 1], data[i]);//Memoization shifting elements slowly slowly
 				/*swap(data[0], data[i]);*/
-				return i-1;
+				return i - 1;
 			};
 		};
 
@@ -168,25 +166,68 @@ namespace V
 		printf("\n");
 	};
 	MACRO_TYPE
-		void Array<DATA_TYPE, SIZE>::sort(int(*function)(const void*,const void*))
+		void Array<DATA_TYPE, SIZE>::sort(int(*function)(const void*, const void*))
 	{
 		qsort(data, len, sizeof(DATA_TYPE), function);
 		b_sorted = true;
 	};
 
-template<class DATA_TYPE,int SIZE,int SIZE2>
-	void merge(Array<DATA_TYPE,SIZE>&arr,const Array<DATA_TYPE,SIZE2>&arr1)
+	template<class DATA_TYPE, int SIZE, int SIZE2>
+	void merge(Array<DATA_TYPE, SIZE>& arr, const Array<DATA_TYPE, SIZE2>& arr1)
 	{
 		DATA_TYPE* new_data = new DATA_TYPE[arr.len + arr1.len];
 		unsigned i{};
 		for (i = 0; i < arr.len; ++i)new_data[i] = arr.data[i];
-		for (unsigned j = 0; j < arr1.len; ++j,++i)new_data[i] = arr1.data[j];
+		for (unsigned j = 0; j < arr1.len; ++j, ++i)new_data[i] = arr1.data[j];
 		delete[] arr.data;
 		arr.len += arr1.len;
 		arr.size += arr1.size;
 		arr.data = new_data;
 		new_data = nullptr;
 	};
+
+	MACRO_TYPE
+		void Array<DATA_TYPE, SIZE>::left_rotate()
+	{
+
+		//TODO LeftRotate()
+	};
+
+	MACRO_TYPE
+		void Array<DATA_TYPE, SIZE>::right_rotate()
+	{
+		//TODO RightRotate()
+	};
+
+	MACRO_TYPE
+		void Array<DATA_TYPE, SIZE>::left_shift()
+	{
+
+		//TODO LeftShift()
+
+	};
+
+	MACRO_TYPE
+		void Array<DATA_TYPE, SIZE>::right_shift()
+	{
+
+		//TODO RightShift()
+	};
+
+	MACRO_TYPE
+		void Array<DATA_TYPE, SIZE>::reverse()
+	{
+
+		//TODO Reversing Array
+
+	};
+
+	MACRO_TYPE
+		void Array<DATA_TYPE, SIZE>::remove(const DATA_TYPE& data_)
+	{
+		//TODO Deleting Element From Array
+	};
+
 
 }
 #endif

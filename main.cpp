@@ -30,8 +30,12 @@ int main()
 
 	V::Array<std::string, 5> arr;
 	for (uint16_t i = 0; i < arr.get_size() - 1; ++i)arr.append("Hello");
-	for (uint16_t i = 0; i < arr.get_size() - 1; ++i)arr[i]->insert(std::begin(*arr[i]),char(i+"0"));
-
+	for (uint16_t i = 0; i < arr.get_size() - 1; ++i)arr[i]->insert(std::begin(*arr[i]),char(i+'a'));
+	
+	arr.left_rotate();
+	arr.right_rotate();
+	arr.right_shift();
+	arr.left_shift();
 	printf("search and see how the array is shifting elements:)\n");
 	for (;;)
 	{
